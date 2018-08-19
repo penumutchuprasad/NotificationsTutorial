@@ -23,7 +23,14 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     }
     
     func didReceive(_ notification: UNNotification) {
-        self.label?.text = notification.request.content.body
+        self.label?.text = "Ola...,\(notification.request.content.title)"
+    }
+    
+    func didReceive(_ response: UNNotificationResponse, completionHandler completion: @escaping (UNNotificationContentExtensionResponseOption) -> Void) {
+        if response.notification.request.content.categoryIdentifier == "timerCategory" {
+            print("yoyoyoyo")
+            completion(.dismissAndForwardAction)
+        }
     }
 
 }

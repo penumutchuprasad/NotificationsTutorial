@@ -12,6 +12,7 @@
 import UIKit
 import UserNotifications
 
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -21,6 +22,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         requestPermissionWithCompletionHanlder(completion: nil)
+        
+        CLService.shared.requestLocationAuthorization()
+        NotificationCenter.default.addObserver(self, selector: #selector(sendNotificationForLocation), name: Notification.Name.init("LocationCaptured"), object: nil)
+        
         return true
     }
 
@@ -34,11 +39,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        
+        UIApplication.shared.applicationIconBadgeNumber = 0
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
 
+    }
+    
+    class func getAppDelegate() -> AppDelegate {
+        return UIApplication.shared.delegate as! AppDelegate
     }
 
     
@@ -54,9 +63,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             if granted {
                 UNUserNotificationCenter.current().delegate = self
+                self.setNotificationCategories()
             }
             
             completion?(granted)
+        }
+        
+    }
+    
+    func getAttachmentFor(_ type: NotificationType) -> UNNotificationAttachment? {
+        
+        let imageName = type.rawValue
+        
+        guard let url = Bundle.main.url(forResource: imageName, withExtension: "png") else {return nil}
+        
+        do {
+            let attchment = try UNNotificationAttachment.init(identifier: type.rawValue, url: url, options: [:])
+            return attchment
+        } catch {
+            print("Attchment error")
+            return nil
         }
         
     }
@@ -79,29 +105,73 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let locationCategory = UNNotificationCategory.init(identifier: "locationCategory", actions: [openAction, likeAction,archiveAction,clearAction], intentIdentifiers: [], options: [])
 
-        
+        UNUserNotificationCenter.current().setNotificationCategories([timerCategory, calenderCategory, locationCategory])
     }
     
     //For Time InterVal Notification
     func sendNotificationForTimer(withTimeInterval timeInterval: TimeInterval) {
         
+        let content = UNMutableNotificationContent.init()
+        content.title = "Time Reminder"
+        content.body = "It is a Time Interval Reminder"
+        if let attchment = getAttachmentFor(.timer) {
+            content.attachments = [attchment]
+        }
+        content.sound = .default()
+        content.categoryIdentifier = "timerCategory"
         
+        content.badge = UIApplication.shared.applicationIconBadgeNumber + 1 as NSNumber
+        
+        let trigger = UNTimeIntervalNotificationTrigger.init(timeInterval: timeInterval, repeats: false)
+        
+        let request = UNNotificationRequest.init(identifier: "Timer", content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
         
     }
     
     //For Calender Notification
     func sendNotificationForCalender(withDate reminderDate: DateComponents) {
         
+        let content = UNMutableNotificationContent.init()
+        content.title = "Calender Reminder"
+        content.body = "It is a Date Reminder"
+        if let attchment = getAttachmentFor(.calendar) {
+            content.attachments = [attchment]
+        }
+        content.sound = .default()
+        content.categoryIdentifier = "calenderCategory"
+
+        content.badge = UIApplication.shared.applicationIconBadgeNumber + 1 as NSNumber
         
+        let trigger = UNCalendarNotificationTrigger.init(dateMatching: reminderDate, repeats: false)
+        
+        let request = UNNotificationRequest.init(identifier: "Calender", content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
         
     }
     
     //For Calender Notification
-    func sendNotificationForLocation() {
+   @objc func sendNotificationForLocation() {
         
-        
+    let content = UNMutableNotificationContent.init()
+    content.title = "Location Reminder"
+    content.body = "It is a Location Reminder"
+    if let attchment = getAttachmentFor(.location) {
+        content.attachments = [attchment]
+    }
+    content.sound = .default()
+    content.categoryIdentifier = "locationCategory"
+
+    content.badge = UIApplication.shared.applicationIconBadgeNumber + 1 as NSNumber
+    
+    let request = UNNotificationRequest.init(identifier: "LocationReminder", content: content, trigger: nil)
+    
+    UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
         
     }
+    
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
@@ -114,7 +184,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         
-        
+//        UIApplication.shared.applicationIconBadgeNumber = 0
+
         completionHandler()
     }
     

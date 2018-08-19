@@ -21,10 +21,15 @@ class NotificationService: UNNotificationServiceExtension {
         bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
         
         if let bestAttemptContent = bestAttemptContent {
-            // Modify the notification content here...
-            bestAttemptContent.title = "\(bestAttemptContent.title) [modified]"
             
-            contentHandler(bestAttemptContent)
+            if bestAttemptContent.categoryIdentifier == "timerCategory" {
+                
+                // Modify the notification content here...
+                bestAttemptContent.title = "Ola, it is timer"
+                
+                contentHandler(bestAttemptContent)
+            }
+            
         }
     }
     

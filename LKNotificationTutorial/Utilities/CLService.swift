@@ -26,10 +26,14 @@ class CLService: NSObject {
         locationManager.requestAlwaysAuthorization()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.delegate = self
-
         locationManager.startUpdatingLocation()
     }
-
+    
+    func startUpdate(region: CLRegion) {
+        
+        self.locationManager.startMonitoring(for: region)
+        
+    }
     
     
 }
@@ -46,13 +50,19 @@ extension CLService: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
         
-        print("Show Notification")
+        if region.identifier == "Mumbai" {
+            NotificationCenter.default.post(name: Notification.Name.init("LocationCaptured"), object: nil)
+        }
+        
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
-        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
-        print("locations = \(locValue.latitude) \(locValue.longitude)")
+        guard let currentLocation = locations.first else { return }
+        
+        let currentRegion = CLCircularRegion.init(center: currentLocation.coordinate, radius: 500, identifier: "LocationReminder")
+        manager.startMonitoring(for: currentRegion)
+        
         
     }
     

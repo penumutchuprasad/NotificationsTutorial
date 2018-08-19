@@ -10,3 +10,22 @@
 */
 
 import Foundation
+
+enum NotificationType: String {
+    
+    case timer
+    case calendar
+    case location
+    
+    var value: String {
+        switch self {
+        case .timer:
+            return rawValue
+        case .calendar:
+            return rawValue
+        default:
+            return rawValue
+        }
+    }
+    
+}

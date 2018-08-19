@@ -10,10 +10,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Reminders-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="LKNotificationTutorial" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Reminders" id="BYZ-38-t0r" customClass="ViewController" customModule="LKNotificationTutorial" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -25,7 +25,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="359" height="43.5"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="23"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DRE-Bc-Ixg">
                                         <rect key="frame" x="0.0" y="53.5" width="359" height="43"/>
@@ -42,7 +42,7 @@
                                         <rect key="frame" x="0.0" y="106.5" width="359" height="43.5"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="23"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RzS-KP-zPx">
                                         <rect key="frame" x="0.0" y="160" width="359" height="43.5"/>
@@ -55,7 +55,7 @@
                                             <action selector="onSelectingCalenderButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Sbk-Cg-8mp"/>
                                         </connections>
                                     </button>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Location Reminder" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KLi-qa-fNc">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Mumbai, India" borderStyle="roundedRect" placeholder="Location Reminder" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KLi-qa-fNc">
                                         <rect key="frame" x="0.0" y="213.5" width="359" height="43"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="23"/>
@@ -87,6 +87,12 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="w9e-kW-K2N"/>
+                    <connections>
+                        <outlet property="calenderTF" destination="J3i-7y-IZy" id="6X6-pI-W9l"/>
+                        <outlet property="locationTF" destination="KLi-qa-fNc" id="Y1q-fV-J4F"/>
+                        <outlet property="stackViewTopConstraint" destination="ytu-uw-FMB" id="m5f-cv-Dum"/>
+                        <outlet property="timerTF" destination="NRU-n1-RCg" id="Wt9-XR-BHX"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
