@@ -12,17 +12,36 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+
+
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    @IBAction func onSelectingTimerButton(_ sender: UIButton) {
+        
+        
+    }
+    
+    @IBAction func onSelectingCalenderButton(_ sender: UIButton) {
+        
+        
+        
+    }
+    
+    @IBAction func onSelectingLocationButton(_ sender: UIButton) {
+        
+        
+        
     }
 
+    private func setBackground(with bgColor: UIColor) {
+        self.view.backgroundColor = bgColor
+    }
 
 }
 
